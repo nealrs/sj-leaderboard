@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Summer Jam Leaderboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,900,400italic' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="favicon.png">
+    <script type='text/javascript' src='js/tabletop1.3.4.js'></script>
+    <script type='text/javascript' src='js/sheetsee.js'></script>
+    <link rel='stylesheet' type='text/css' href='css/style.css'>
+  </head>
+<body>
+  <div class="container">
+    <div id="header">
+      <h2 id="hackathon">Summer Jam Leaderboard</h2>
+      <input id="fullTableFilter" type="text" placeholder="Filter by school name"></input>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="number">Rank</th>
+          <th class="name">School</th>
+          <th class="prize"># of Submitters</th>
+        </tr>
+      </thead>
+    </table>
+
+    </div>
+
+
+    <div id="fullTable"></div>
+</div>
+
+<script id="fullTable_template" type="text/html">
+  <table>
+    <tbody>
+      {{#rows}}
+        <tr>
+          <td class="number">{{rank}}</td>
+          <td class="name">{{school}}</td>
+          <td class="prize">{{submitters}}</td>
+        </tr>
+      {{/rows}}
+    </tobdy>
+  </table>
+</script>
+
+<script type="text/javascript">
+
+  function getParam(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // usage: http://foo.bar?id=1kaNq96j0S76A2P_dk82VekiruiWEQXTu5hT0POPywe4&name=Hackathon%20Name&filter=hardware
+
+    //var URL = getParam("id");
+    //var name = decodeURI(getParam("name"));
+    //var filter = decodeURI(getParam("filter"));
+
+    if (URL == false){alert("invalid sheet id!");}
+    /*if (name != "false"){
+    	document.title = name+" Expo";
+    	$("#hackathon").text(name+" Expo");
+    }*/
+
+    /*
+    if (filter != "false"){
+      $("#fullTableFilter").val(filter);
+      $("#fullTableFilter").focus();
+    }
+    */
+
+    Tabletop.init( { key: "1_1Od6XO8pQC6PaDq6cQC0AORxDw2IpxPg1qWjavwNz0", callback: showInfo, simpleSheet: true } )
+  })
+
+  function showInfo(data) {
+    // put spaces after commas for better wrapping / mobile.
+    /*for (var x in data) {
+      var s = data[x]['sponsorprizes'];
+      data[x]['sponsorprizes'] = s.replace(/,/ig, ", ");
+    }*/
+
+    var tableOptions = {"data": data
+    , "pagination": 1000, "tableDiv": "#fullTable", "filterDiv": "#fullTableFilter"}
+    Sheetsee.makeTable(tableOptions)
+    Sheetsee.initiateTableFilter(tableOptions)
+  }
+
+</script>
+
+</body>
+</html>
